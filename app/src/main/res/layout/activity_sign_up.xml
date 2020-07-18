@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="650dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+
+        <TextView
+            android:id="@+id/signupTitle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="#000"
+            android:textSize="40dp"
+            android:fontFamily="@font/gillsansb"
+            android:layout_marginTop="80dp"/>
+
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textSize="15dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Make ID"
+            android:fontFamily="@font/gillsans"
+            android:id="@+id/ID"
+            />
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/addID"
+                android:layout_width="240dp"
+                android:layout_height="34dp"
+                android:layout_alignParentTop="true"
+                android:backgroundTint="#000"
+                android:hint="Enter restaurant name"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/searchID"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_search_24"
+                android:background="@drawable/id_search"
+                android:textSize="10dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:textSize="15dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Password"
+            android:fontFamily="@font/gillsans"
+            />
+
+        <EditText
+            android:id="@+id/addPW"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:backgroundTint="#000"
+            android:inputType="textPassword"
+            android:textColor="#FFF"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:textSize="15dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Phone Number"
+            android:fontFamily="@font/gillsans"
+            />
+
+        <EditText
+            android:id="@+id/addNUM"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:backgroundTint="#000"
+            android:inputType="text"
+            android:textColor="#FFF"/>
+
+
+        <TextView
+            android:id="@+id/signupButton"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:text="Sign Up"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="#FFF"
+            android:fontFamily="@font/gillsansb"
+            android:background="@drawable/sign_up"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+</ScrollView>
