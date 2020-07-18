@@ -1,22 +1,28 @@
 package com.example.cs496_project2;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "MainActivity";
     String uid="", pw="";
     EditText usernameET,passwordET;
 
@@ -29,6 +35,27 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        retrofitInterface = RetrofitUtility.getRetrofitInterface();
+        retrofitInterface.main_get().enqueue(new Callback<List<Postings>>() {
+            @Override
+            public void onResponse(Call<List<Postings>> call, Response<List<Postings>> response) {
+                if (response.isSuccessful()) {
+                    List<Postings> postingsList = response.body();
+                    if (postingsList != null) {
+                        Log.d(TAG, postingsList.get(0).getUserID());
+                    } else {
+                        Log.d(TAG, "posting is null");
+                    }
+                } else {
+                    int statusCode  = response.code();
+                    Log.d(TAG, String.valueOf(statusCode));
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Postings>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
         data=new ArrayList<String>();
         usernameET=(EditText) findViewById(R.id.userid);
         passwordET=(EditText) findViewById(R.id.password);

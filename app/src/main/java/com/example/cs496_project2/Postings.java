@@ -1,9 +1,20 @@
 package com.example.cs496_project2;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Postings {
+    @SerializedName("id")
+    @Expose
     String userID;
+    @SerializedName("place")
+    @Expose
     String placeName;
+    @SerializedName("date")
+    @Expose
     String date;
+    @SerializedName("category")
+    @Expose
     String category;
 
     public String getUserID() {
