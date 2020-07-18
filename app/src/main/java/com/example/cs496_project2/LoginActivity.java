@@ -79,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 // 디비에서 아이디, 비밀번호 일치여부
                 // Global로 id와 사용자 정보 넘기기!!
-
+                Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(loginIntent);
 
             }
         });
