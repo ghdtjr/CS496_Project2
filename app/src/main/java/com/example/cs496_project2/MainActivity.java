@@ -2,8 +2,11 @@ package com.example.cs496_project2;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -12,8 +15,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
 
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -23,9 +30,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    DrawerLayout drawerLayout;
 
-    private Toolbar toolbar;
+    //private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
@@ -39,8 +47,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //DRAWER
+        Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.drawer);
+        final Menu menu = navigationView.getMenu();
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, tb, R.string.app_name, R.string.app_name);
+        drawerToggle.syncState();
+
+
 
         viewPager=findViewById(R.id.view_pager);
         tabLayout=findViewById(R.id.tab_layout);
@@ -66,6 +85,22 @@ public class MainActivity extends AppCompatActivity {
 //        badgeDrawable.setNumber(12);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()){
+            case R.id.mySchedule:
+                break;
+
+            case R.id.myTrip:
+                break;
+
+            case R.id.myInfo:
+                break;
+        }
+        return false;
+    }
+
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragments = new ArrayList<>();
@@ -79,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(fragment);
             fragmentTitle.add(title);
         }
+
 
         @NonNull
         @Override
