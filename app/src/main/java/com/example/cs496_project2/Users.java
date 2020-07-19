@@ -1,14 +1,14 @@
 package com.example.cs496_project2;
 
 public class Users {
-    @SerializedName("id")
-    @Expose
+//    @SerializedName("id")
+//    @Expose
     String userID;
-    @SerializedName("password")
-    @Expose
+//    @SerializedName("password")
+//    @Expose
     String password;
-    @SerializedName("phone_number")
-    @Expose
+//    @SerializedName("phone_number")
+//    @Expose
     String phone_number;
 
 

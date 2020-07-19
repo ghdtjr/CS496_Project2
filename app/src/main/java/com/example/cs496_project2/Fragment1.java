@@ -24,6 +24,8 @@ import java.util.ArrayList;
  * Use the {@link Fragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+// 동행 구함 !!
 public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListItemLongSelectedInterface,RecyclerViewAdapter.OnListItemSelectedInterface{
 
 
@@ -116,12 +118,16 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
+
         ImageButton newContact = (ImageButton) v.findViewById(R.id.newPost);
         newContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Intent
-                // recyclerview Item user의 연락처 정보 나타내는 팝업?? 보여줘야함
+                Context context2 = v.getContext();                                                    // Context 수정
+                Intent newPostIntent = new Intent(context2, NewPost.class);
+                startActivity(newPostIntent);
             }
         });
 

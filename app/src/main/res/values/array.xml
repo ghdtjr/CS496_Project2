@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="test">
+        <item>Let"'"s Tour</item>
+        <item>Let"'"s Eat</item>
+        <item>Let"'"s Drink</item>
+    </string-array>
+</resources>
