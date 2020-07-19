@@ -4,17 +4,17 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Postings {
-//    @SerializedName("id")
-//    @Expose
+    @SerializedName("id")
+    @Expose
     String userID;
- //   @SerializedName("place")
- //   @Expose
+    @SerializedName("place")
+    @Expose
     String placeName;
- //   @SerializedName("date")
- //   @Expose
+    @SerializedName("date")
+    @Expose
     String date;
- //   @SerializedName("category")
- //   @Expose
+    @SerializedName("category")
+    @Expose
     String category;
 
     public String getUserID() {
