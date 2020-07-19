@@ -1,6 +1,6 @@
 package com.example.cs496_project2;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,19 +17,20 @@ public interface RetrofitInterface {
     Call<String> user_login(@Body LoginReq body);
     
     @GET("/main/get")
-    Call<List<Postings>> main_get();
+    Call<ArrayList<Postings>> main_get();
 
     @POST("/main/write")
-    Call<Postings> main_write(@Body String body);
+    Call<String> main_write(@Body PostingReq body);
 
     @GET("/main/{writer_id}")
-    Call<Postings> main_writer_id(@Path("writer_id") String writer_id);
+    Call<Users> main_writer_id(@Path("writer_id") String writer_id);
 
     /*
-    @POST("/gallery/write")
+
     @GET("/gallery/post_all")
     @POST("/gallery/post_on_category")
 
     @GET("/feed/get")
+    @POST("/feed/write")
     */
 }

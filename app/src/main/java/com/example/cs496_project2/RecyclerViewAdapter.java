@@ -26,11 +26,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private OnListItemSelectedInterface mListener;
     private OnListItemLongSelectedInterface mLongListener;
 
-
     private Context context;
-    private List<Postings> list = new ArrayList<>();
+    private ArrayList<Postings> list = new ArrayList<>();
 
-    public RecyclerViewAdapter(Context context, List<Postings> list, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
+    public RecyclerViewAdapter(Context context, ArrayList<Postings> list, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
         this.context = context;
         this.list = list;
         this.mListener = listener;
@@ -78,6 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             idText = (TextView) view.findViewById(R.id.id_tv);
             placeText = (TextView) view.findViewById(R.id.place_tv);
             dateText = (TextView) view.findViewById(R.id.date_tv);
+            cateText = (TextView) view.findViewById(R.id.cate_tv);
             Log.d("Contact", "make one");
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,8 +86,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     mListener.onItemSelected(v, position);
                     Log.d("Posting", "clicked "+getAdapterPosition());
                     //팝업으로 사용자 연락처
-
-
                 }
             });
             view.setOnLongClickListener(new View.OnLongClickListener() {

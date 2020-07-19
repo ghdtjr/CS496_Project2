@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +33,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NewPost extends AppCompatActivity {//implements AdapterView.OnItemSelectedListener { //implements NavigationView.OnNavigationItemSelectedListener, 나중에 DRAWER 할때!!
+
+    // Variables for server communication
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "NewPosting Activity";
+    String newposting_result;
 
     DrawerLayout drawerLayout;
 
@@ -79,16 +89,41 @@ public class NewPost extends AppCompatActivity {//implements AdapterView.OnItemS
             public void onClick(View v) {
                 newPlace = newPlaceET.getText().toString();
                 newDate = newDateET.getText().toString();
-                newCategory = spinner_result.toString(); // 아마 이러면 될듯???
+                newCategory = spinner_result.getText().toString(); // 아마 이러면 될듯???
                 if ((newPlace.length() * newDate.length()) == 0) {
                     Toast.makeText(NewPost.this, "Please input contents", Toast.LENGTH_SHORT).show();
                 } else {
-                    // DB 업로드 !!!
-                }
+                    // RetroFit
+                    retrofitInterface = RetrofitUtility.getRetrofitInterface();
+                    retrofitInterface.main_write(new PostingReq(LoginActivity.user_ID, newPlace, newDate,newCategory)).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                newposting_result = response.body();
+                                Log.d(TAG, newposting_result);
 
+                                // Posting Success
+                                if(newposting_result.equals("1")){
+                                    Intent createPostIntent = new Intent(NewPost.this, MainActivity.class);
+                                    startActivity(createPostIntent);
+                                    Toast.makeText(NewPost.this,"Posting success", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (newposting_result.equals("0"))
+                                {
+                                    Toast.makeText(NewPost.this,"Posting failed", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                int statusCode  = response.code();
+                                Log.d(TAG, String.valueOf(statusCode));
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.e(TAG, t.toString());
+                        }
+                    });
+                }
                 // fragment 따라 어떻게??
-                Intent createPostIntent = new Intent(NewPost.this, MainActivity.class);
-                startActivity(createPostIntent);
             }
         });
 

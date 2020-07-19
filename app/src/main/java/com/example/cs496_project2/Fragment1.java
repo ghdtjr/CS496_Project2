@@ -19,8 +19,18 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 // 동행 구함 !!
 public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListItemLongSelectedInterface,RecyclerViewAdapter.OnListItemSelectedInterface{
+
+    // Variables for server communication
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "Fragment1";
+    String main_get_result;
+    ArrayList<Postings> posts = new ArrayList<>();
 
     // 변수들
     String userID="";
@@ -31,14 +41,12 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
-    ArrayList<Postings> posts = new ArrayList<>();
-
     public Fragment1() {
         // Required empty public constructor
     }
-    public static Fragment1 newInstance(String param1, String param2) {
-        Fragment1 fragment = new Fragment1();
-        Bundle args = new Bundle();
+        public static Fragment1 newInstance(String param1, String param2) {
+            Fragment1 fragment = new Fragment1();
+            Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,6 +83,28 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
         View v = inflater.inflate(R.layout.fragment_1, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView1);
 
+        // Get the all posts from the server to "posts"
+        retrofitInterface = RetrofitUtility.getRetrofitInterface();
+        retrofitInterface.main_get().enqueue(new Callback<ArrayList<Postings>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Postings>> call, Response<ArrayList<Postings>> response) {
+                if (response.isSuccessful()) {
+                    for (Postings post : response.body()){
+                        posts.add(post);
+                    }
+                    // posts = response.body();
+                    if (posts == null) {
+                    }
+                } else {
+                    int statusCode  = response.code();
+                    Log.d(TAG, String.valueOf(statusCode));
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Postings>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
         recyclerView.setHasFixedSize(true);
         adapter = new RecyclerViewAdapter(getActivity().getApplicationContext(), posts, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
@@ -84,7 +114,6 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
                 new DividerItemDecoration(getActivity().getApplicationContext(),
                         new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
         // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
 
