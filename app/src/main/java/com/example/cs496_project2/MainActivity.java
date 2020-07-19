@@ -7,78 +7,94 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.squareup.picasso.Picasso;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.tabs.TabLayout;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private TextView info;
-    private ImageView profile;
-    private LoginButton loginButton;
+public class MainActivity extends AppCompatActivity {
 
-    CallbackManager callbackManager;
+    private Toolbar toolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
+    private Fragment1 fragment1;
+    private Fragment2 fragment2;
+    private Fragment3 fragment3;
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        info=findViewById(R.id.info);
-        profile=findViewById(R.id.profile);
-        loginButton=findViewById(R.id.login);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        callbackManager=CallbackManager.Factory.create();
+        viewPager=findViewById(R.id.view_pager);
+        tabLayout=findViewById(R.id.tab_layout);
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                info.setText("User Id:" + loginResult.getAccessToken().getUserId());
-                String imageURL="https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?return_ssl_resources=1";
-                Picasso.get().load(imageURL).into(profile);
-            }
+        fragment1=new Fragment1();
+        fragment2=new Fragment2();
+        fragment3=new Fragment3();
 
-            @Override
-            public void onCancel() {
+        tabLayout.setupWithViewPager(viewPager);
 
-            }
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(), 0);
+        viewPagerAdapter.addFragment(fragment1,"");
+        viewPagerAdapter.addFragment(fragment2,"");
+        viewPagerAdapter.addFragment(fragment3,"");
+        viewPager.setAdapter(viewPagerAdapter);
 
-            @Override
-            public void onError(FacebookException error) {
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_people_alt_24);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_photo_library_24);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_post_add_24);
 
-            }
-        });
+//        BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
+//        badgeDrawable.setVisible(true);
+//        badgeDrawable.setNumber(12);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        private List<Fragment> fragments = new ArrayList<>();
+        private List<String> fragmentTitle = new ArrayList<>();
+
+        public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
+        }
+
+        public void  addFragment(Fragment fragment, String title){
+            fragments.add(fragment);
+            fragmentTitle.add(title);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position){
+            return fragmentTitle.get(position);
+        }
     }
-
 }
