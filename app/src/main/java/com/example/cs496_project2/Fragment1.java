@@ -91,6 +91,7 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
                 if (response.isSuccessful()) {
                     for (Postings post : response.body()){
                         posts.add(post);
+                        adapter.notifyDataSetChanged();
                     }
                     // posts = response.body();
                     if (posts == null) {
