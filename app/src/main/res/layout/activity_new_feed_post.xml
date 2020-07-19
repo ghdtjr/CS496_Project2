@@ -112,10 +112,8 @@
 
         </LinearLayout>
 
-
-
         <TextView
-            android:id="@+id/createPost"
+            android:id="@+id/createFeedPost"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"

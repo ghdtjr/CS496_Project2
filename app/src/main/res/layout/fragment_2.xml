@@ -61,18 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical" />
 
-    <ImageButton
-        android:id="@+id/newContact"
-        android:src="@drawable/ic_baseline_add_24"
-        android:background="@drawable/circle_button2"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:elevation="5dp" />
     </FrameLayout>
 
 </LinearLayout>
