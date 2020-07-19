@@ -9,20 +9,24 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // Variables for server communication
     private RetrofitInterface retrofitInterface;
-    private static String TAG = "MainActivity";
+    private static String TAG = "LoginActivity";
+    String login_result;
+
     String uid="", pw="";
     EditText usernameET,passwordET;
 
@@ -35,27 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        retrofitInterface = RetrofitUtility.getRetrofitInterface();
-        retrofitInterface.main_get().enqueue(new Callback<List<Postings>>() {
-            @Override
-            public void onResponse(Call<List<Postings>> call, Response<List<Postings>> response) {
-                if (response.isSuccessful()) {
-                    List<Postings> postingsList = response.body();
-                    if (postingsList != null) {
-                        Log.d(TAG, postingsList.get(0).getUserID());
-                    } else {
-                        Log.d(TAG, "posting is null");
-                    }
-                } else {
-                    int statusCode  = response.code();
-                    Log.d(TAG, String.valueOf(statusCode));
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Postings>> call, Throwable t) {
-                Log.e(TAG, t.toString());
-            }
-        });
         data=new ArrayList<String>();
         usernameET=(EditText) findViewById(R.id.userid);
         passwordET=(EditText) findViewById(R.id.password);
@@ -77,11 +60,36 @@ public class LoginActivity extends AppCompatActivity {
                 uid=usernameET.getText().toString();
                 pw=passwordET.getText().toString();
 
-                // 디비에서 아이디, 비밀번호 일치여부
                 // Global로 id와 사용자 정보 넘기기!!
-                Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(loginIntent);
-
+                retrofitInterface = RetrofitUtility.getRetrofitInterface();
+                retrofitInterface.user_login(new LoginReq(uid, pw)).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            login_result = response.body();
+                            Log.d(TAG, login_result);
+                            if (login_result.equals("ID not exists")) {
+                                Toast.makeText(LoginActivity.this,"ID not exists", Toast.LENGTH_SHORT).show();
+                            } 
+                            else if (login_result.equals("Login success"))
+                            {
+                                Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(loginIntent);
+                            }
+                            else if(login_result.equals("Wrong password"))
+                            {
+                                Toast.makeText(LoginActivity.this,"Wrong password", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            int statusCode  = response.code();
+                            Log.d(TAG, String.valueOf(statusCode));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e(TAG, t.toString());
+                    }
+                });
             }
         });
 

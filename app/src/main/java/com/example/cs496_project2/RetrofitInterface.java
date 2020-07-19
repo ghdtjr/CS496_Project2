@@ -4,33 +4,26 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 public interface RetrofitInterface {
 
-    /*
     @POST("/user/register")
-    Call<> user_register();
-
+    Call<String> user_register(@Body RegisterReq body);
 
     @POST("/user/login")
-    Call<> user_login();
-    */
-
+    Call<String> user_login(@Body LoginReq body);
+    
     @GET("/main/get")
     Call<List<Postings>> main_get();
 
     @POST("/main/write")
-    Call<Postings> main_write();
+    Call<Postings> main_write(@Body String body);
 
     @GET("/main/{writer_id}")
-    Call<Postings> main_writer_id();
+    Call<Postings> main_writer_id(@Path("writer_id") String writer_id);
 
     /*
     @POST("/gallery/write")

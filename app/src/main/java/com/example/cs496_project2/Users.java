@@ -1,5 +1,8 @@
 package com.example.cs496_project2;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Users {
     @SerializedName("id")
     @Expose
