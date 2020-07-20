@@ -56,12 +56,17 @@
         android:layout_height="620dp"
         android:layout_below="@+id/spinner_linear"
         android:layout_marginTop="10dp">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:scrollbars="vertical" />
+        <GridView
+            android:id="@+id/ImgGridView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnWidth="96dp"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:verticalSpacing="3dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth" >
+        </GridView>
 
     </FrameLayout>
 

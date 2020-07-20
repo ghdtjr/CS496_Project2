@@ -94,10 +94,7 @@ public class NewFeedPost extends AppCompatActivity {
                 if ((newPlace.length() * newContents.length()) == 0) {
                     Toast.makeText(NewFeedPost.this, "Please input contents", Toast.LENGTH_SHORT).show();
                 }else {
-                    Log.d(TAG, "no file in here");
-                    Log.d(TAG, FilePathStr);
                     File file = new File(FilePathStr);
-                    Log.d(TAG, file.getAbsolutePath());
                     String fileName = file.getName();
 
                     RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);

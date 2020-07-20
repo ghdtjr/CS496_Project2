@@ -13,20 +13,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 // 여행지 / 맛집 / 술집 갤러리
-public class Fragment2 extends Fragment implements RecyclerViewAdapter.OnListItemLongSelectedInterface,RecyclerViewAdapter.OnListItemSelectedInterface{
+public class Fragment2 extends Fragment {
 
-    //어떤 변수들 ?? => 다시 정해서 넣어줘야함
+    // Variables for server communication
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "Fragment2";
+    String feed_result;
+    ArrayList<String> urls = new ArrayList<>();
 
-    RecyclerView recyclerView;
-    RecyclerViewAdapter adapter;
-
-    ArrayList<Postings> posts = new ArrayList<>();
+    ImageAdapter ia;
 
     public Fragment2() {
         // Required empty public constructor
@@ -38,46 +48,9 @@ public class Fragment2 extends Fragment implements RecyclerViewAdapter.OnListIte
         return fragment;
     }
 
-//일단 필요없음
-//    @Override
-//    public void onItemSelected(View v, int position) {
-//        Toast.makeText(getActivity().getApplicationContext(), position+" pressed!" , Toast.LENGTH_SHORT).show();
-//
-//        //intent로 사용자 정보 보여주기
-//        //intent 에서 사용자 연락처 보여주고, 다이얼 혹은 메세지 전송 기능 필요
-//        //Intent fullScreenIntent=new Intent(getActivity().getApplicationContext(), FullScreenActivity.class); //=> 사진 선택시 자신 확대 기능, 이거 수정해보장
-//        //fullScreenIntent.putExtra("imgPath", position);
-//        //v.imageView.getContext().startActivity(fullScreenIntent);
-//    }
-//
-//    @Override
-//    public void onItemLongSelected(View v, int position) {
-//        Toast.makeText(getActivity().getApplicationContext(), position + " long pressed!", Toast.LENGTH_SHORT).show(); // 필요 ??
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onItemSelected(View v, int position) {
-        RecyclerViewAdapter.Holder viewHolder = (RecyclerViewAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(this.getContext(),  "Press long to call", Toast.LENGTH_SHORT).show();
-        Log.d("test","long clicked");
-        //v.setBackgroundColor(Color.BLUE);
-        //팝업
-
-    }
-
-    @Override
-    public void onItemLongSelected(View v, int position) {
-        Log.d("tab1test","clicked");
-        //Toast.makeText(getActivity().getApplicationContext(), position+" " , Toast.LENGTH_SHORT).show();
-        //다이얼
-        //String tel="tel:" + number;
-        //Log.d("MY PHONE:",tel);
-        //startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
     }
 
     @Override
@@ -85,20 +58,65 @@ public class Fragment2 extends Fragment implements RecyclerViewAdapter.OnListIte
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_2, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView2);
+        GridView gv =  v.findViewById(R.id.ImgGridView);
 
-        recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerViewAdapter(getActivity().getApplicationContext(), posts, this, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(adapter);
+        // Get the all posts from the server to "posts"
+        retrofitInterface = RetrofitUtility.getRetrofitInterface();
+        retrofitInterface.post_all().enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
+                if (response.isSuccessful()) {
+                    for (String url : response.body()){
+                        urls.add(url);
+                        Log.d(TAG,  url);
+                        ia.notifyDataSetChanged();
+                    }
+                    if (urls == null) {
+                    }
+                } else {
+                    int statusCode  = response.code();
+                    Log.d(TAG, String.valueOf(statusCode));
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<String>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
 
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(getActivity().getApplicationContext(),
-                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
-        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
-
+        ia = new ImageAdapter(getActivity());
+        gv.setAdapter(ia);
         return v;
+    }
+    /* Adapter class */
+    public class ImageAdapter extends BaseAdapter {
+
+        ImageAdapter(Context c){
+        }
+
+        public int getCount() {
+            return urls.size();
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+        /* setting the data which will be placed on the view */
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null){
+                imageView = new ImageView(getActivity());
+                imageView.setAdjustViewBounds(false);
+            }else{
+                imageView = (ImageView) convertView;
+            }
+            /* Show image */
+            Glide.with(getActivity()).load(("http://192.249.19.243:0280/gallery/" + urls.get(position)).toString()).override(450,350).centerCrop().into(imageView);
+            return imageView;
+        }
     }
 }

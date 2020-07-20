@@ -116,8 +116,6 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
                         new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
 
-        // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
-
         ImageButton newContact = (ImageButton) v.findViewById(R.id.newPost);
         newContact.setOnClickListener(new View.OnClickListener() {
             @Override
