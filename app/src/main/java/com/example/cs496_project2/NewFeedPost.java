@@ -124,7 +124,7 @@ public class NewFeedPost extends AppCompatActivity {
                                 newfeedposting_result = response.body();
                                 Log.d(TAG, newfeedposting_result);
 
-                                if (response.equals("1")) {
+                                if (newfeedposting_result.equals("1")) {
                                     Toast.makeText(NewFeedPost.this, "Feed Posting success", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else if (newfeedposting_result.equals("0")) {
