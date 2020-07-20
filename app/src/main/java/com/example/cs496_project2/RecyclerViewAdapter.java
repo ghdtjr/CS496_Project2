@@ -104,13 +104,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int position = getAdapterPosition();
                     mLongListener.onItemLongSelected(v, getAdapterPosition());
                     Log.d("Recyclerview", "position = "+ getAdapterPosition());
-                    //다이얼 나중에 갖다 쓸 코드
 
                     retrofitInterface = RetrofitUtility.getRetrofitInterface();
                     retrofitInterface.main_writer_id(list.get(position).getUserID()).enqueue(new Callback<Users>() {
                         @Override
                         public void onResponse(Call<Users> call, Response<Users> response) {
                             if (response.isSuccessful()) {
+                                Log.d(TAG, list.get(position).getUserID());
                                 Users writer = response.body();
                                 String tel="tel:" + writer.getPhone_number(); // getUserID로 ID 받아와서 전화번호 받아와야함
                                 Log.d("MY PHONE:",tel);
