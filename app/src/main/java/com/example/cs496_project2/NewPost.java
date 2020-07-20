@@ -46,7 +46,7 @@ public class NewPost extends AppCompatActivity {//implements AdapterView.OnItemS
 
     DrawerLayout drawerLayout;
 
-    //  Database
+    // Database
     String newPlace="";
     String newDate="";
     String newCategory=""; //체크박스
