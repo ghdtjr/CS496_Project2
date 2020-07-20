@@ -4,11 +4,14 @@ import android.net.ConnectivityDiagnosticsManager;
 
 import java.util.ArrayList;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
@@ -28,8 +31,6 @@ public interface RetrofitInterface {
     @GET("/main/{writer_id}")
     Call<Users> main_writer_id(@Path("writer_id") String writer_id);
 
-
-
     /*
     @GET("/gallery/post_all")
     Call<String> post_all();
@@ -39,6 +40,12 @@ public interface RetrofitInterface {
 
     @Multipart
     @POST("/feed/write")
-    Call<String> feed_write();
-
+    Call<String> feed_write(@Part MultipartBody.Part file);
+//    Call<String> feed_write(@Part("file") RequestBody file,
+//                            @Part("place")RequestBody place,
+//                            @Part("id")RequestBody id,
+//                            @Part("like")RequestBody like,
+//                            @Part("contents")RequestBody contents,
+//                            @Part("category")RequestBody category
+//                            );
 }
