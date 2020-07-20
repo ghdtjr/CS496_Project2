@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,8 +133,29 @@ public class SignUp extends AppCompatActivity {
         if(requestCode==PICK_IMAGE){
             ImageButton img = (ImageButton) findViewById(R.id.addProfilePhoto);
             currentImageUri = data.getData();
+            //Log.d("URI INFO: ", data.getData().getPath());
+            //Log.d("URI INFO: ", "data.getData().toString()");
             check=true;
             img.setImageURI(currentImageUri);
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currentImageUri);
+//                String filename = currentImageUri.getLastPathSegment(); // =>
+//                //Log.d("File Name: ",filename);
+//                //Log.d("File Name: ","filename");
+//                File file = new File(filename);
+//                FileOutputStream filestream=null;
+//                try{
+//                    filestream=new FileOutputStream(file);
+//                    bitmap.compress(Bitmap.CompressFormat.PNG,0,filestream);
+//                }catch(FileNotFoundException e){
+//                    e.printStackTrace();
+//                    Log.d("Error1","error1");
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.d("Error2","error2");
+//            }
+//            Log.d("IMG INFO: ", currentImageUri.toString());
         }
     }
 }

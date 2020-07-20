@@ -28,12 +28,11 @@ public interface RetrofitInterface {
     @GET("/main/{writer_id}")
     Call<Users> main_writer_id(@Path("writer_id") String writer_id);
 
-/*
 
 
+    /*
     @GET("/gallery/post_all")
     Call<String> post_all();
-    /*
     @POST("/gallery/post_on_category")
     @GET("/feed/get")
     */

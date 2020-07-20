@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -87,9 +89,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.mySchedule:
+                Intent testIntent = new Intent(MainActivity.this, ___Test.class);
+                startActivity(testIntent);
                 break;
 
             case R.id.myTrip:
+                Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(mapIntent);
                 break;
 
             case R.id.myInfo:
