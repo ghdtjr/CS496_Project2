@@ -21,6 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    // globalize user_info
+    public static String user_ID;
+    public static String user_PASSWORD;
 
     // Variables for server communication
     private RetrofitInterface retrofitInterface;
@@ -73,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                             } 
                             else if (login_result.equals("Login success"))
                             {
+                                user_ID = uid;
+                                user_PASSWORD = pw;
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(loginIntent);
                             }

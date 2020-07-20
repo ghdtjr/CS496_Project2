@@ -133,29 +133,29 @@ public class SignUp extends AppCompatActivity {
         if(requestCode==PICK_IMAGE){
             ImageButton img = (ImageButton) findViewById(R.id.addProfilePhoto);
             currentImageUri = data.getData();
-            Log.d("URI INFO: ", data.getData().getPath());
+            //Log.d("URI INFO: ", data.getData().getPath());
             //Log.d("URI INFO: ", "data.getData().toString()");
             check=true;
             img.setImageURI(currentImageUri);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currentImageUri);
-                String filename = currentImageUri.getLastPathSegment(); // =>
-                //Log.d("File Name: ",filename);
-                Log.d("File Name: ","filename");
-                File file = new File(filename);
-                FileOutputStream filestream=null;
-                try{
-                    filestream=new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG,0,filestream);
-                }catch(FileNotFoundException e){
-                    e.printStackTrace();
-                    Log.d("Error1","error1");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("Error2","error2");
-            }
-            Log.d("IMG INFO: ", currentImageUri.toString());
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currentImageUri);
+//                String filename = currentImageUri.getLastPathSegment(); // =>
+//                //Log.d("File Name: ",filename);
+//                //Log.d("File Name: ","filename");
+//                File file = new File(filename);
+//                FileOutputStream filestream=null;
+//                try{
+//                    filestream=new FileOutputStream(file);
+//                    bitmap.compress(Bitmap.CompressFormat.PNG,0,filestream);
+//                }catch(FileNotFoundException e){
+//                    e.printStackTrace();
+//                    Log.d("Error1","error1");
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.d("Error2","error2");
+//            }
+//            Log.d("IMG INFO: ", currentImageUri.toString());
         }
     }
 }

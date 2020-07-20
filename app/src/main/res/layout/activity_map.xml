@@ -53,9 +53,17 @@
         android:layout_margin="15dp">
 
         <ImageButton
+            android:id="@+id/addDestination"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/lookforButton"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button"
+            android:src="@drawable/ic_baseline_add_24" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/search"
             android:background="@drawable/circle_button"
             android:src="@drawable/ic_baseline_search_24"
             android:layout_marginTop="5dp"/>

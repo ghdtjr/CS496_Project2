@@ -8,13 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.Holder> {
+
+    // Variables for server communication
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "Get Phone_number";
+    String login_result;
 
     public interface OnListItemLongSelectedInterface {
         void onItemLongSelected(View v, int position);
@@ -96,10 +106,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int position = getAdapterPosition();
                     mLongListener.onItemLongSelected(v, getAdapterPosition());
                     Log.d("Recyclerview", "position = "+ getAdapterPosition());
-//                    //다이얼 나중에 갖다 쓸 코드
-//                    String tel="tel:" + list.get(position).getNumber();
-//                    Log.d("MY PHONE:",tel);
-//                    context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
+                    //다이얼 나중에 갖다 쓸 코드
+
+                    retrofitInterface = RetrofitUtility.getRetrofitInterface();
+                    retrofitInterface.main_writer_id(list.get(position).getUserID()).enqueue(new Callback<Users>() {
+                        @Override
+                        public void onResponse(Call<Users> call, Response<Users> response) {
+                            if (response.isSuccessful()) {
+                                Users writer = response.body();
+                                String tel="tel:" + writer.getPhone_number(); // getUserID로 ID 받아와서 전화번호 받아와야함
+                                Log.d("MY PHONE:",tel);
+                                context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Users> call, Throwable t) {
+                            Log.e(TAG, t.toString());
+                        }
+                    });
                     return false;
                 }
             });

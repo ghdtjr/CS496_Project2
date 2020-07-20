@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.mySchedule:
-                //Intent scheduleIntent = new Intent(MainActivity.this, Schedule.class);
-                //startActivity(signupIntent);
+                Intent testIntent = new Intent(MainActivity.this, ___Test.class);
+                startActivity(testIntent);
                 break;
 
             case R.id.myTrip:

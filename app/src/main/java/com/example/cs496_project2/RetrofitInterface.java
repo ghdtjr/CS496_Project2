@@ -23,7 +23,7 @@ public interface RetrofitInterface {
     Call<Postings> main_write(@Body String body);
 
     @GET("/main/{writer_id}")
-    Call<Postings> main_writer_id(@Path("writer_id") String writer_id);
+    Call<Users> main_writer_id(@Path("writer_id") String writer_id);
 
     /*
     @POST("/gallery/write")

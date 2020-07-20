@@ -23,13 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+        <activity android:name=".___Test"></activity>
+        <activity android:name=".MapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCVX6n_K-jNboEmw5wjOm-Q_mlfcp51Re8" />
 
-
-        <activity android:name=".MapActivity"></activity>
         <activity android:name=".CalenderActivity" />
         <activity android:name=".NewFeedPost" />
         <activity android:name=".NewPost" />
