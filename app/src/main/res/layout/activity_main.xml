@@ -20,25 +20,27 @@
                 android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-
+                android:background="#02aab0"
                 android:elevation="4dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/Theme.AppCompat.Light.NoActionBar">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:layout_gravity="center"
-                    android:id="@+id/toolbar_title"
-                    android:textSize="20sp"
-                    android:textColor="#FFF"
-                    />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text=""-->
+<!--                    android:fontFamily="@font/billabong"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:id="@+id/toolbar_title"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:textColor="#FFF"-->
+<!--                    />-->
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_background">
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
