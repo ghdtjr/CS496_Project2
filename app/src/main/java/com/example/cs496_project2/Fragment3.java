@@ -18,14 +18,21 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListItemLongSelectedInterface,RecyclerViewAdapter.OnListItemSelectedInterface{
 
-    //어떤 변수들 ?? => 다시 정해서 넣어줘야함
+    // Variables for server communication
+    private RetrofitInterface retrofitInterface;
+    private static String TAG = "Fragment3";
+    String fragment3_result;
 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
-    ArrayList<Postings> posts = new ArrayList<>();
+    ArrayList<Feedphotos> feedphotos = new ArrayList<>();
 
     public Fragment3() {
         // Required empty public constructor
@@ -71,16 +78,39 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
         View v = inflater.inflate(R.layout.fragment_3, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView3);
 
-        recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerViewAdapter(getActivity().getApplicationContext(), posts, this, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(adapter);
+        // Get the all feedphotos from the server to "posts"
+        retrofitInterface = RetrofitUtility.getRetrofitInterface();
+        retrofitInterface.feed_get(LoginActivity.user_ID).enqueue(new Callback<ArrayList<Feedphotos>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Feedphotos>> call, Response<ArrayList<Feedphotos>> response) {
+                if (response.isSuccessful()) {
+                    for (Feedphotos feedphoto : response.body()){
+                        feedphotos.add(feedphoto);
+//                        adapter.notifyDataSetChanged();
+                    }
+                    if (feedphotos == null) {
+                    }
+                } else {
+                    int statusCode  = response.code();
+                    Log.d(TAG, String.valueOf(statusCode));
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Feedphotos>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
 
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(getActivity().getApplicationContext(),
-                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
-        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//        recyclerView.setHasFixedSize(true);
+//        adapter = new RecyclerViewAdapter(getActivity().getApplicationContext(), feedphotos, this, this);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+//        recyclerView.setAdapter(adapter);
+//
+//        DividerItemDecoration dividerItemDecoration =
+//                new DividerItemDecoration(getActivity().getApplicationContext(),
+//                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
+//        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+//        recyclerView.addItemDecoration(dividerItemDecoration);
 
         // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
 

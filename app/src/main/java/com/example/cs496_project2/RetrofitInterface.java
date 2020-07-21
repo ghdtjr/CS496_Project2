@@ -47,16 +47,14 @@ public interface RetrofitInterface {
 //    @POST("/gallery/post_on_category")
 
     @GET("/feed/get/{writer_id}")
-    Call<ArrayList<String>> feed_get();
+    Call<ArrayList<Feedphotos>> feed_get(@Path("writer_id") String writer_id);
 
     @Multipart
     @POST("/feed/write")
-    Call<String> feed_write(@Part MultipartBody.Part file);
-//    Call<String> feed_write(@Part("file") RequestBody file,
-//                            @Part("place")RequestBody place,
-//                            @Part("id")RequestBody id,
-//                            @Part("like")RequestBody like,
-//                            @Part("contents")RequestBody contents,
-//                            @Part("category")RequestBody category
-//                            );
+    Call<String> feed_write(@Part MultipartBody.Part file,
+                            @Part("place")RequestBody place,
+                            @Part("id")RequestBody id,
+                            @Part("like")RequestBody like,
+                            @Part("contents")RequestBody contents,
+                            @Part("category")RequestBody category);
 }

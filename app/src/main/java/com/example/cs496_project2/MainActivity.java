@@ -70,19 +70,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, tb, R.string.app_name, R.string.app_name);
         drawerToggle.syncState();
 
-        profileView = (ImageView) findViewById(R.id.profileImage);
-        Glide.with(MainActivity.this).load("http://192.249.19.243:0280/profile/1595330150950.jpg").into(profileView);
-
         /* TODO : get profile url from user_id */
         retrofitInterface = RetrofitUtility.getRetrofitInterface();
         retrofitInterface.get_profile(LoginActivity.user_ID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, response.body());
                     LoginActivity.user_profile = "http://192.249.19.243:0280/profile/" + response.body();
-                    Log.d(TAG, LoginActivity.user_profile);
-                    Glide.with(MainActivity.this).load(LoginActivity.user_profile).into(profileView);
                 } else {
                     int statusCode  = response.code();
                     Log.d(TAG, String.valueOf(statusCode));
@@ -117,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
+        profileView = (ImageView) findViewById(R.id.profileImage);
+        Glide.with(MainActivity.this).load(LoginActivity.user_profile).into(profileView);
+        Log.d(TAG, LoginActivity.user_profile);
         switch (item.getItemId()){
             case R.id.mySchedule:
                 Intent testIntent = new Intent(MainActivity.this, CalenderActivity.class);
