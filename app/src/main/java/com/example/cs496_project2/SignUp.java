@@ -115,7 +115,6 @@ public class SignUp extends AppCompatActivity {
                 signupPW=pwET.getText().toString();
                 signupNUM=numET.getText().toString();
 
-                /* TODO: POST profile image */
                 if(!signupID.equals("") && !signupPW.equals("") && !signupNUM.equals("")) {
                     File file = new File(FilePathStr);
                     String fileName = file.getName();

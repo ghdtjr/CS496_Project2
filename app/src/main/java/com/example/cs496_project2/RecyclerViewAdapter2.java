@@ -1,29 +1,29 @@
 package com.example.cs496_project2;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.Holder> {
+public class RecyclerViewAdapter2 extends RecyclerView.Adapter<RecyclerViewAdapter2.Holder> {
 
     // Variables for server communication
     private RetrofitInterface retrofitInterface;
-    private static String TAG = "Get Phone_number";
+    private static String TAG = "Adapter2";
     String login_result;
 
     public interface OnListItemLongSelectedInterface {
@@ -37,57 +37,61 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private OnListItemLongSelectedInterface mLongListener;
 
     private Context context;
-    private ArrayList<Postings> list = new ArrayList<>();
+    private ArrayList<FeedPostings> list = new ArrayList<>();
 
-    public RecyclerViewAdapter(Context context, ArrayList<Postings> list, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
+    public RecyclerViewAdapter2(Context context, ArrayList<FeedPostings> list, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
         this.context = context;
         this.list = list;
         this.mListener = listener;
         this.mLongListener = longListener;
     }
 
-    // ViewHolder 생성
-    // row layout을 화면에 뿌려주고 holder에 연결
+    @NonNull
     @Override
     public Holder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.postings_item, viewGroup, false);
         return new Holder(view);
     }
 
-    /*
-     * 만들어진 ViewHolder에 data 삽입 ListView의 getView와 동일
-     *
-     * */
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(RecyclerViewAdapter2.Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-        holder.idText.setText(list.get(itemposition).getUserID());
+        Glide.with(holder.itemView.getContext())
+                .load(("http://192.249.19.243:0280/gallery/" + feedphotos.getFile_name))
+                .into(holder.ivFeedPhoto);
+        holder.fileText.setText(list.get(itemposition).getFileName());
         holder.placeText.setText(list.get(itemposition).getPlaceName());
-        holder.dateText.setText(list.get(itemposition).getDate());
+        holder.idText.setText(list.get(itemposition).getUserID());
+        holder.likeText.setText(list.get(itemposition).getLike());
+        holder.contentsText.setText(list.get(itemposition).getContents());
         holder.cateText.setText(list.get(itemposition).getCategory());
-        //Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
 
-    // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다
     @Override
     public int getItemCount() {
-        return list.size(); // RecyclerView의 size return
+        return list.size();
     }
 
-    // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
-        public TextView idText;
+        ImageView ivFeedPhoto;
+        public TextView fileText;
         public TextView placeText;
-        public TextView dateText;
+        public TextView idText;
+        public TextView likeText;
+        public TextView contentsText;
         public TextView cateText;
 
         public Holder(View view){
             super(view);
-            idText = (TextView) view.findViewById(R.id.id_tv);
-            placeText = (TextView) view.findViewById(R.id.place_tv);
-            dateText = (TextView) view.findViewById(R.id.date_tv);
-            cateText = (TextView) view.findViewById(R.id.cate_tv);
+
+            ivFeedPhoto = itemView.findViewById(R.id.feedphoto_f3);
+
+            placeText = (TextView) view.findViewById(R.id.place_tv_f3);
+            idText = (TextView) view.findViewById(R.id.id_tv_f3);
+            likeText= (TextView) view.findViewById(R.id.likes_tv_f3);
+            contentsText = (TextView) view.findViewById(R.id.contents_tv_f3);
+            cateText = (TextView) view.findViewById(R.id.cate_tv_f3);
             Log.d("Contact", "make one");
 
             /* TODO: Get writer feed from writer_id */
@@ -96,7 +100,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 public void onClick(View v){
                     int position = getAdapterPosition();
                     mListener.onItemSelected(v, position);
-                    Log.d("Posting", "clicked "+getAdapterPosition());
+                    Log.d("FeedPosting", "clicked "+getAdapterPosition());
                     //팝업으로 사용자 연락처
                 }
             });
@@ -112,11 +116,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         @Override
                         public void onResponse(Call<Users> call, Response<Users> response) {
                             if (response.isSuccessful()) {
-                                Log.d(TAG, list.get(position).getUserID());
-                                Users writer = response.body();
-                                String tel="tel:" + writer.getPhone_number(); // getUserID로 ID 받아와서 전화번호 받아와야함
-                                Log.d("MY PHONE:",tel);
-                                context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
+                                // 하트
                             }
                         }
                         @Override

@@ -39,7 +39,6 @@ public class NewFeedPost extends AppCompatActivity {
     Uri filepath;
 
     String newPlace="";
-    String like="0";
     String newContents="";
     String newCategory="";
     EditText newPlaceET,newContentsET;
@@ -52,7 +51,7 @@ public class NewFeedPost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed_post);
-
+        String like = "0";
         newPlaceET = (EditText) findViewById(R.id.addPlace);
         newContentsET = (EditText) findViewById(R.id.postContent);
         spinner_result=(TextView)findViewById(R.id.spinner_result3);
@@ -87,7 +86,6 @@ public class NewFeedPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 newPlace = newPlaceET.getText().toString();
-                like = "0";
                 newContents = newContentsET.getText().toString();
                 newCategory = spinner_result.getText().toString();
 
@@ -100,28 +98,17 @@ public class NewFeedPost extends AppCompatActivity {
                     /* TODO: POST FeedReq parameters */
                     RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
                     MultipartBody.Part imageBody = MultipartBody.Part.createFormData("file", fileName, requestBody);
-//                    RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), file);
-//                    RequestBody place = RequestBody.create(MediaType.parse("text/plain"),
-//                            newPlace);
-//                    RequestBody id = RequestBody.create(MediaType.parse("text/plain"),
-//                            LoginActivity.user_ID);
-//                    RequestBody like = RequestBody.create(MediaType.parse("text/plain"),
-//                            "5");
-//                    RequestBody contents = RequestBody.create(MediaType.parse("text/plain"),
-//                            newContents);
-//                    RequestBody category = RequestBody.create(MediaType.parse("text/plain"),
-//                            newCategory);
-
-                    Gson gson = new GsonBuilder().setLenient().create();
-                    retrofitInterface = RetrofitUtility.getRetrofitInterface();
-//                    retrofitInterface.feed_write(filebody, place, id, like, contents, category).enqueue(new Callback<String>() {
-                    retrofitInterface.feed_write(imageBody).enqueue(new Callback<String>() {
+                    RequestBody place = RequestBody.create(MediaType.parse("text/plain"), newPlace);
+                    RequestBody id = RequestBody.create(MediaType.parse("text/plain"), LoginActivity.user_ID);
+                    RequestBody like = RequestBody.create(MediaType.parse("text/plain"), "0");
+                    RequestBody contents = RequestBody.create(MediaType.parse("text/plain"), newContents);
+                    RequestBody category = RequestBody.create(MediaType.parse("text/plain"), newCategory);
+                    retrofitInterface.feed_write(imageBody, place, id, like, contents, category).enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             if (response.isSuccessful()) {
                                 newfeedposting_result = response.body();
                                 Log.d(TAG, newfeedposting_result);
-
                                 if (newfeedposting_result.equals("1")) {
                                     Toast.makeText(NewFeedPost.this, "Feed Posting success", Toast.LENGTH_SHORT).show();
                                     finish();
@@ -133,7 +120,6 @@ public class NewFeedPost extends AppCompatActivity {
                                 Log.d(TAG, String.valueOf(statusCode));
                             }
                         }
-
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
                             Log.e(TAG, t.toString());

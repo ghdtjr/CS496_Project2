@@ -51,12 +51,10 @@ public interface RetrofitInterface {
 
     @Multipart
     @POST("/feed/write")
-    Call<String> feed_write(@Part MultipartBody.Part file);
-//    Call<String> feed_write(@Part("file") RequestBody file,
-//                            @Part("place")RequestBody place,
-//                            @Part("id")RequestBody id,
-//                            @Part("like")RequestBody like,
-//                            @Part("contents")RequestBody contents,
-//                            @Part("category")RequestBody category
-//                            );
+    Call<String> feed_write(@Part MultipartBody.Part file,
+                           @Part("place")RequestBody place,
+                           @Part("id")RequestBody id,
+                           @Part("like")RequestBody like,
+                           @Part("contents")RequestBody contents,
+                           @Part("category")RequestBody category);
 }
