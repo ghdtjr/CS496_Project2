@@ -34,10 +34,11 @@ public interface RetrofitInterface {
 
     @GET("/gallery/post_all")
     Call<ArrayList<String>> post_all();
-    /*
-    @POST("/gallery/post_on_category")
-    @GET("/feed/get")
-    */
+
+//    @POST("/gallery/post_on_category")
+
+    @GET("/feed/get/{writer_id}")
+    Call<ArrayList<String>> feed_get();
 
     @Multipart
     @POST("/feed/write")
