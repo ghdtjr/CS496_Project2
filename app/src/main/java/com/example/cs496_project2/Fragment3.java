@@ -34,17 +34,6 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
     private RetrofitInterface retrofitInterface;
     private static String TAG = "Fragment3";
     String fragment3_result;
-=======
-public class Fragment3 extends Fragment{
-
-    //어떤 변수들 ?? => 다시 정해서 넣어줘야함
-    private RetrofitInterface retrofitInterface;
-    private static String TAG = "Fragment3";
-    String personal_feed_result;
-    ArrayList<String> urls = new ArrayList<>();
-
-    ImageAdapter ia;
->>>>>>> origin/feature/sally/design
 
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
