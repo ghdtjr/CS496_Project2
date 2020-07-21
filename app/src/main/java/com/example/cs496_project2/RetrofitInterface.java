@@ -57,4 +57,5 @@ public interface RetrofitInterface {
                             @Part("like")RequestBody like,
                             @Part("contents")RequestBody contents,
                             @Part("category")RequestBody category);
+
 }
