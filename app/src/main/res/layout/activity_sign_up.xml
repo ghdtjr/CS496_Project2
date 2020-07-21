@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background"
     tools:context=".SignUp">
+
+    <ImageView
+        android:layout_height="680dp"
+        android:layout_width="360dp"
+        android:background="#9902aab0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
 
         <TextView
             android:id="@+id/signupTitle"
-            android:layout_width="300dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="70dp"
+            android:fontFamily="@font/gillsans"
             android:text="Sign Up"
-            android:textColor="#000"
-            android:textSize="40dp"
-            android:fontFamily="@font/gillsansb"
-            android:layout_marginTop="50dp"/>
-
+            android:textColor="#fff"
+            android:textSize="40dp" />
 
         <TextView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:textColor="#000"
             android:textStyle="bold"
@@ -47,7 +55,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentTop="true"
                 android:backgroundTint="#000"
-                android:hint="Enter restaurant name"
+                android:hint="Enter your id"
                 android:singleLine="true" />
 
             <ImageButton
@@ -57,7 +65,8 @@
                 android:src="@drawable/ic_baseline_search_24"
                 android:background="@drawable/id_search"
                 android:textSize="10dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#FF8C85"/>
         </LinearLayout>
 
         <TextView
@@ -104,7 +113,8 @@
         <ImageButton
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:id="@+id/addProfilePhoto"/>
+            android:id="@+id/addProfilePhoto"
+            android:src="@drawable/ic_baseline_add_a_photo_24"/>
 
         <TextView
             android:id="@+id/signupButton"
@@ -116,8 +126,8 @@
             android:gravity="center"
             android:textColor="#FFF"
             android:fontFamily="@font/gillsansb"
-            android:background="@drawable/sign_up"
-            />
+            android:backgroundTint="#FF8C85"
+            android:background="@drawable/sign_up" />
 
 
     </LinearLayout>
@@ -126,4 +136,4 @@
 
 
 
-</ScrollView>
+</RelativeLayout>

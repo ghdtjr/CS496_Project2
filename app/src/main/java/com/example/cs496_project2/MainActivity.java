@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.mySchedule:
-                Intent testIntent = new Intent(MainActivity.this, ___Test.class);
+                Intent testIntent = new Intent(MainActivity.this, CalenderActivity.class);
                 startActivity(testIntent);
                 break;
 
