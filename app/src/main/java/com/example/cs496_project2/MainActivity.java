@@ -17,10 +17,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -44,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment3 fragment3;
     private RetrofitInterface retrofitInterface;
     private static String TAG = "MainActivity";
+
+    private ImageView profileView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, tb, R.string.app_name, R.string.app_name);
         drawerToggle.syncState();
+
+        profileView = (ImageView) findViewById(R.id.profileImage);
+        Glide.with(MainActivity.this).load("http://192.249.19.243:0280/profile/1595330150950.jpg").into(profileView);
+
+        /* TODO : get profile url from user_id */
+        retrofitInterface = RetrofitUtility.getRetrofitInterface();
+        retrofitInterface.get_profile(LoginActivity.user_ID).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.body());
+                    LoginActivity.user_profile = "http://192.249.19.243:0280/profile/" + response.body();
+                    Log.d(TAG, LoginActivity.user_profile);
+                    Glide.with(MainActivity.this).load(LoginActivity.user_profile).into(profileView);
+                } else {
+                    int statusCode  = response.code();
+                    Log.d(TAG, String.valueOf(statusCode));
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+
         viewPager=findViewById(R.id.view_pager);
         tabLayout=findViewById(R.id.tab_layout);
 
@@ -78,10 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_people_alt_24);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_photo_library_24);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_post_add_24);
-
-//        BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
-//        badgeDrawable.setVisible(true);
-//        badgeDrawable.setNumber(12);
     }
 
     @Override
