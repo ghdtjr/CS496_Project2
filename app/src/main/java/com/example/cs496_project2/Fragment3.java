@@ -62,6 +62,8 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
         //startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
     }
 
+    /* TODO: get feedpost from writer_id, url array, feedpost array */
+    /* IN feedpost item, like request and get */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

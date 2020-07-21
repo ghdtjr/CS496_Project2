@@ -93,9 +93,8 @@ public class SignUp extends AppCompatActivity {
                 signupID=idET.getText().toString();
                 signupPW=pwET.getText().toString();
                 signupNUM=numET.getText().toString();
-                //사진 uri(?)도 디비에 올려야함
-                // 디비에 사용자 정보 올리기
 
+                /* TODO: POST profile image */
                 // RetroFit
                 if(!signupID.equals("") && !signupPW.equals("") && !signupNUM.equals("")) {
                     retrofitInterface = RetrofitUtility.getRetrofitInterface();

@@ -97,6 +97,7 @@ public class NewFeedPost extends AppCompatActivity {
                     File file = new File(FilePathStr);
                     String fileName = file.getName();
 
+                    /* TODO: POST FeedReq parameters */
                     RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
                     MultipartBody.Part imageBody = MultipartBody.Part.createFormData("file", fileName, requestBody);
 //                    RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), file);

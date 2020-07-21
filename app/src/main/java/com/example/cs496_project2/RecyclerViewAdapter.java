@@ -89,6 +89,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dateText = (TextView) view.findViewById(R.id.date_tv);
             cateText = (TextView) view.findViewById(R.id.cate_tv);
             Log.d("Contact", "make one");
+
+            /* TODO: Get writer feed from writer_id */
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
@@ -125,6 +127,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     return false;
                 }
             });
+
         }
     }
 }

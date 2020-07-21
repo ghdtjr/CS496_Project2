@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     // globalize user_info
     public static String user_ID;
     public static String user_PASSWORD;
+    public static String user_profile;
 
     // Variables for server communication
     private RetrofitInterface retrofitInterface;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                             {
                                 user_ID = uid;
                                 user_PASSWORD = pw;
+                                /* TODO : get profile url from user_id */
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(loginIntent);
                             }

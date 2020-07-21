@@ -60,6 +60,9 @@ public class Fragment2 extends Fragment {
         View v = inflater.inflate(R.layout.fragment_2, container, false);
         GridView gv =  v.findViewById(R.id.ImgGridView);
 
+        /* TODO: new request button + categorize from category
+        *  TODO: get feedpost info array
+        *   */
         // Get the all posts from the server to "posts"
         retrofitInterface = RetrofitUtility.getRetrofitInterface();
         retrofitInterface.post_all().enqueue(new Callback<ArrayList<String>>() {
