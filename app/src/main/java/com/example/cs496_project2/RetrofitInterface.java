@@ -41,6 +41,9 @@ public interface RetrofitInterface {
     @GET("/main/{writer_id}")
     Call<Users> main_writer_id(@Path("writer_id") String writer_id);
 
+    @GET("/main/get/{url_id}")
+    Call<Users> main_url_id(@Path("url_id") String url_id);
+
     @GET("/gallery/post_all")
     Call<ArrayList<String>> post_all();
 
@@ -48,6 +51,7 @@ public interface RetrofitInterface {
 
     @GET("/feed/get/{writer_id}")
     Call<ArrayList<Feedphotos>> feed_get(@Path("writer_id") String writer_id);
+
 
     @Multipart
     @POST("/feed/write")

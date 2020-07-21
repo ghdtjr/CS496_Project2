@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -72,9 +73,9 @@ public class Fragment2 extends Fragment {
                     for (String url : response.body()){
                         urls.add(url);
                         Log.d(TAG,  url);
-                        ia.notifyDataSetChanged();
+                        ia.notifyDataSetChanged();  
                     }
-                    if (urls == null) {
+                    if (urls == null) { 
                     }
                 } else {
                     int statusCode  = response.code();
@@ -89,14 +90,40 @@ public class Fragment2 extends Fragment {
 
         ia = new ImageAdapter(getActivity());
         gv.setAdapter(ia);
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                ia.callImageViewer(position);
+                return;
+            }
+        });
         return v;
     }
     /* Adapter class */
     public class ImageAdapter extends BaseAdapter {
-
         ImageAdapter(Context c){
         }
-
+        public final void callImageViewer(int selectedIndex){
+            Intent i = new Intent(getContext(), WritersFeed.class);
+            retrofitInterface = RetrofitUtility.getRetrofitInterface();
+            retrofitInterface.main_url_id(urls.get(selectedIndex)).enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> call, Response<Users> response) {
+                    if (response.isSuccessful()) {
+                        Users user = response.body();
+                        Log.d(TAG, user.getUserID());
+                        i.putExtra("userID", user.getUserID());
+                        startActivityForResult(i, 1);
+                    } else {
+                        int statusCode  = response.code();
+                        Log.d(TAG, String.valueOf(statusCode));
+                    }
+                }
+                @Override
+                public void onFailure(Call<Users> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }
         public int getCount() {
             return urls.size();
         }
