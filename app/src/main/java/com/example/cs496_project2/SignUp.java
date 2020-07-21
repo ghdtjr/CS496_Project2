@@ -39,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private static String TAG = "SignUpActivity";
     String register_result;
+    String valid;
 
     String signupID="", signupPW="", signupNUM="";
     EditText idET,pwET,numET;
@@ -66,12 +67,28 @@ public class SignUp extends AppCompatActivity {
         searchID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Firebase button parse
                 signupID=idET.getText().toString();
-                signupPW=pwET.getText().toString();
-                signupNUM=numET.getText().toString();
-
-                // 버튼 클릭시 존재하는 아이디인지 ??
+                retrofitInterface = RetrofitUtility.getRetrofitInterface();
+                retrofitInterface.validID(signupID).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            valid = response.body();
+                            if(valid.equals("1")) {
+                                Toast.makeText(SignUp.this, "available ID", Toast.LENGTH_SHORT).show();
+                            } else if (valid.equals("0")){
+                                Toast.makeText(SignUp.this, signupID + " already exists", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            int statusCode = response.code();
+                            Log.d(TAG, String.valueOf(statusCode));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e(TAG, t.toString());
+                    }
+                });
             }
         });
 

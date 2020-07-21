@@ -19,6 +19,9 @@ public interface RetrofitInterface {
     @POST("/user/register")
     Call<String> user_register(@Body RegisterReq body);
 
+    @GET("/user/register/{newID}")
+    Call<String> validID(@Path("newID") String newID);
+
     @POST("/user/login")
     Call<String> user_login(@Body LoginReq body);
     
