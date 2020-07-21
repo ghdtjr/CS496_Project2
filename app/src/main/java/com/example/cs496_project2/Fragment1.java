@@ -61,19 +61,11 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
         RecyclerViewAdapter.Holder viewHolder = (RecyclerViewAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
         Toast.makeText(this.getContext(),  "Press long to call", Toast.LENGTH_SHORT).show();
         Log.d("test","long clicked");
-        //v.setBackgroundColor(Color.BLUE);
-        //팝업
-
     }
 
     @Override
     public void onItemLongSelected(View v, int position) {
         Log.d("tab1test","clicked");
-        //Toast.makeText(getActivity().getApplicationContext(), position+" " , Toast.LENGTH_SHORT).show();
-        //다이얼
-        //String tel="tel:" + number;
-        //Log.d("MY PHONE:",tel);
-        //startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
     }
 
     @Override
@@ -93,7 +85,6 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
                         posts.add(post);
                         adapter.notifyDataSetChanged();
                     }
-                    // posts = response.body();
                     if (posts == null) {
                     }
                 } else {
@@ -106,6 +97,7 @@ public class Fragment1 extends Fragment implements RecyclerViewAdapter.OnListIte
                 Log.e(TAG, t.toString());
             }
         });
+
         recyclerView.setHasFixedSize(true);
         adapter = new RecyclerViewAdapter(getActivity().getApplicationContext(), posts, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));

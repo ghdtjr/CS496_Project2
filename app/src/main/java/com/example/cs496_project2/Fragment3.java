@@ -27,8 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-<<<<<<< HEAD
-public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListItemLongSelectedInterface,RecyclerViewAdapter.OnListItemSelectedInterface{
+
+public class Fragment3 extends Fragment {
 
     // Variables for server communication
     private RetrofitInterface retrofitInterface;
@@ -36,9 +36,17 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
     String fragment3_result;
 
     RecyclerView recyclerView;
-    RecyclerViewAdapter adapter;
+    RecyclerViewAdapter2 adapter;
 
-    ArrayList<Feedphotos> feedphotos = new ArrayList<>();
+    public static ArrayList<Feedphotos> feedphotos = new ArrayList<>();
+
+    // 변수들
+    String file_name="";
+    String placeName="";
+    String userID="";
+    String like="";
+    String contents="";
+    String category="";
 
     public Fragment3() {
         // Required empty public constructor
@@ -55,26 +63,6 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
         super.onCreate(savedInstanceState);
     }
 
-//    @Override
-//    public void onItemSelected(View v, int position) {
-//        RecyclerViewAdapter.Holder viewHolder = (RecyclerViewAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
-//        Toast.makeText(this.getContext(),  "Press long to call", Toast.LENGTH_SHORT).show();
-//        Log.d("test","long clicked");
-//        //v.setBackgroundColor(Color.BLUE);
-//        //팝업
-//
-//    }
-//
-//    @Override
-//    public void onItemLongSelected(View v, int position) {
-//        Log.d("tab1test","clicked");
-//        //Toast.makeText(getActivity().getApplicationContext(), position+" " , Toast.LENGTH_SHORT).show();
-//        //다이얼
-//        //String tel="tel:" + number;
-//        //Log.d("MY PHONE:",tel);
-//        //startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
-//    }
-
     /* TODO: get feedpost from writer_id, url array, feedpost array */
     /* IN feedpost item, like request and get */
     @Override
@@ -82,7 +70,7 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_3, container, false);
-        GridView gv =  v.findViewById(R.id.ImgGridView);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView3);
 
         // Get the all feedphotos from the server to "posts"
         retrofitInterface = RetrofitUtility.getRetrofitInterface();
@@ -92,7 +80,7 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
                 if (response.isSuccessful()) {
                     for (Feedphotos feedphoto : response.body()){
                         feedphotos.add(feedphoto);
-//                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                     }
                     if (feedphotos == null) {
                     }
@@ -102,28 +90,22 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
                 }
             }
             @Override
-
             public void onFailure(Call<ArrayList<Feedphotos>> call, Throwable t) {
                 Log.e(TAG, t.toString());
             }
         });
-        ia = new ImageAdapter(getActivity());
-        gv.setAdapter(ia);
-//        return v;
 
         //RecyclerView Adapter 호출
         recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerViewAdapter2(getActivity().getApplicationContext(), posts); //, this, this);
+        adapter = new RecyclerViewAdapter2(getActivity().getApplicationContext(), feedphotos);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         recyclerView.setAdapter(adapter);
-//
-//        DividerItemDecoration dividerItemDecoration =
-//                new DividerItemDecoration(getActivity().getApplicationContext(),
-//                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
-//        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
-//        recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // recyclerview Item 선택시 user의 연락처 정보 나타내는 팝업?? 보여줘야함
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity().getApplicationContext(),
+                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         ImageButton newFeedPost = (ImageButton) v.findViewById(R.id.newFeedPost);
         newFeedPost.setOnClickListener(new View.OnClickListener() {
@@ -137,37 +119,5 @@ public class Fragment3 extends Fragment implements RecyclerViewAdapter.OnListIte
         });
 
         return v;
-    }
-
-    /* Adapter class */
-    public class ImageAdapter extends BaseAdapter {
-
-        ImageAdapter(Context c){
-        }
-
-        public int getCount() {
-            return urls.size();
-        }
-
-        public Object getItem(int position) {
-            return position;
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
-        /* setting the data which will be placed on the view */
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
-            if (convertView == null){
-                imageView = new ImageView(getActivity());
-                imageView.setAdjustViewBounds(false);
-            }else{
-                imageView = (ImageView) convertView;
-            }
-            /* Show image */
-            Glide.with(getActivity()).load(("http://192.249.19.243:0280/gallery/" + urls.get(position)).toString()).override(450,350).centerCrop().into(imageView);
-            return imageView;
-        }
     }
 }
