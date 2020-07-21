@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 uid=usernameET.getText().toString();
                 pw=passwordET.getText().toString();
 
-                // Global로 id와 사용자 정보 넘기기!!
                 retrofitInterface = RetrofitUtility.getRetrofitInterface();
                 retrofitInterface.user_login(new LoginReq(uid, pw)).enqueue(new Callback<String>() {
                     @Override

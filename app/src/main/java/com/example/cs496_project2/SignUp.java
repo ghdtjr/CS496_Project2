@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -29,6 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,8 +50,8 @@ public class SignUp extends AppCompatActivity {
 
     //image
     private static final int PICK_IMAGE=777;
-    Uri currentImageUri;
-    boolean check;
+    String FilePathStr = null;
+    Uri filepath;
 
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
@@ -112,18 +116,27 @@ public class SignUp extends AppCompatActivity {
                 signupNUM=numET.getText().toString();
 
                 /* TODO: POST profile image */
-                // RetroFit
                 if(!signupID.equals("") && !signupPW.equals("") && !signupNUM.equals("")) {
+                    File file = new File(FilePathStr);
+                    String fileName = file.getName();
+
+                    RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), file);
+                    MultipartBody.Part imageBody = MultipartBody.Part.createFormData("file", fileName, filebody);
+                    RequestBody id = RequestBody.create(MediaType.parse("text/plain"), signupID);
+                    RequestBody password = RequestBody.create(MediaType.parse("text/plain"), signupPW);
+                    RequestBody phone_number = RequestBody.create(MediaType.parse("text/plain"), signupNUM);
+
                     retrofitInterface = RetrofitUtility.getRetrofitInterface();
-                    retrofitInterface.user_register(new RegisterReq(signupID, signupPW, signupNUM)).enqueue(new Callback<String>() {
+                    retrofitInterface.user_register(imageBody, id, password, phone_number).enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             if (response.isSuccessful()) {
                                 register_result = response.body();
                                 Log.d(TAG, register_result);
+                                Toast.makeText(SignUp.this, "Sign-up Success", Toast.LENGTH_SHORT).show();
+                                finish();
                                 Intent signupIntent = new Intent(SignUp.this, LoginActivity.class);
                                 startActivity(signupIntent);
-                                Toast.makeText(SignUp.this, "Sign-up Success", Toast.LENGTH_SHORT).show();
                             } else {
                                 int statusCode = response.code();
                                 Log.d(TAG, String.valueOf(statusCode));
@@ -148,30 +161,18 @@ public class SignUp extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PICK_IMAGE){
             ImageButton img = (ImageButton) findViewById(R.id.addProfilePhoto);
-            currentImageUri = data.getData();
-            //Log.d("URI INFO: ", data.getData().getPath());
-            //Log.d("URI INFO: ", "data.getData().toString()");
-            check=true;
-            img.setImageURI(currentImageUri);
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currentImageUri);
-//                String filename = currentImageUri.getLastPathSegment(); // =>
-//                //Log.d("File Name: ",filename);
-//                //Log.d("File Name: ","filename");
-//                File file = new File(filename);
-//                FileOutputStream filestream=null;
-//                try{
-//                    filestream=new FileOutputStream(file);
-//                    bitmap.compress(Bitmap.CompressFormat.PNG,0,filestream);
-//                }catch(FileNotFoundException e){
-//                    e.printStackTrace();
-//                    Log.d("Error1","error1");
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                Log.d("Error2","error2");
-//            }
-//            Log.d("IMG INFO: ", currentImageUri.toString());
+            filepath = data.getData();
+            img.setImageURI(filepath);
+
+            if (data != null) {
+                String[] FilePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(filepath, FilePath,
+                        null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(FilePath[0]);
+                FilePathStr = c.getString(columnIndex);
+                c.close();
+            }
         }
     }
 }

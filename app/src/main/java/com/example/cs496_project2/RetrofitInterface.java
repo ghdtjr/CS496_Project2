@@ -16,8 +16,14 @@ import retrofit2.http.Path;
 
 public interface RetrofitInterface {
 
+//    @POST("/user/register")
+//    Call<String> user_register(@Body RegisterReq body);
+    @Multipart
     @POST("/user/register")
-    Call<String> user_register(@Body RegisterReq body);
+    Call<String> user_register(@Part MultipartBody.Part profile,
+                               @Part("id")RequestBody id,
+                               @Part("password")RequestBody password,
+                               @Part("phone_number")RequestBody phone_number);
 
     @GET("/user/register/{newID}")
     Call<String> validID(@Path("newID") String newID);
@@ -33,7 +39,6 @@ public interface RetrofitInterface {
 
     @GET("/main/{writer_id}")
     Call<Users> main_writer_id(@Path("writer_id") String writer_id);
-
 
     @GET("/gallery/post_all")
     Call<ArrayList<String>> post_all();
