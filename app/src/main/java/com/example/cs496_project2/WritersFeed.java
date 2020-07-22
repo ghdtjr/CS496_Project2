@@ -47,7 +47,7 @@ public class WritersFeed extends AppCompatActivity {
 
         // Get the all feedphotos from the server to "posts"
         retrofitInterface = RetrofitUtility.getRetrofitInterface();
-        retrofitInterface.feed_get(getIntent().getExtras().toString()).enqueue(new Callback<ArrayList<Feedphotos>>() {
+        retrofitInterface.feed_get(getIntent().getStringExtra("userID")).enqueue(new Callback<ArrayList<Feedphotos>>() {
             @Override
             public void onResponse(Call<ArrayList<Feedphotos>> call, Response<ArrayList<Feedphotos>> response) {
                 if (response.isSuccessful()) {
