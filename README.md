@@ -2,11 +2,20 @@
 
 This is a repository for development of Second project using server and DB as coursework in MADCAMP, 2020 SUMMER, KAIST. 
 
+### Login
+> People can sign up with new ID, password, phone number and their own profile image.
+
 ### TAB1
+> In this maintab people can post and watch the all the postings for looking for someone travel with.
+> With longclick the post, we can get writer's phone number and get the dial intent.
 
-> 
+### TAB2
+> In this tab, people can watch the all the feedphotos about the travel including foods.
+> We can move to writer's own feedphoto tab with clicking the feedphoto.
 
-
+### TAB3
+> In this tab, people can only see their own feedphotos. And in here they can post new. Then the new feedphoto will be come up to others' second tab.
+> This will show the detail travel things about the photo: place, category and comment of the travelers.
 
 ## Development
 
